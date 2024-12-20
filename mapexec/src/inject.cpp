@@ -31,6 +31,7 @@ HANDLE GetGivenProcessHandle(DWORD PID){
 
     pNtOpenProcess = (PNTOPENPROCESS)GetProcAddress(GetModuleHandleW(NTDLL_HASH), NTOPEN_PROCESS_HASH);
     if(pNtOpenProcess == NULL){
+        printf("[!] Unable to get ptr to NtOpenProcess \n");
         return NULL;
     }
 
@@ -39,6 +40,9 @@ HANDLE GetGivenProcessHandle(DWORD PID){
         printf("[!] Unable to to get handle to process with PID : %i \n", PID);
         return NULL;
     }
+    printf("[*] Successfully got handle to process with PID %lu \n", PID);
+    printf("[*] PRESS <ENTER> to continue.... \n");
+    getchar();
 
     return hProcess;
 }

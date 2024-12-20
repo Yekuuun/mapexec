@@ -23,4 +23,4 @@
 
 //hash => generated from HashStringW & HashStringA
 #define NTDLL_HASH 817310536
-#define NTOPEN_PROCESS_HASH 3750040962
+#define NTOPEN_PROCESS_HASH 3808979763

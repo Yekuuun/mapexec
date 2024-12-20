@@ -72,7 +72,6 @@ PVOID GetProcAddress(HANDLE hModule, DWORD Hash){
     {
         char* functionName = (char*)(dllAddress + rvaNames[i]);
         DWORD funcHash     = HashStringA(functionName);
-        std::cout << funcHash << std::endl;
 
         if(funcHash == Hash){
             return (LPVOID)(dllAddress + rvaFunction[rvaOrdinalsNames[i]]);

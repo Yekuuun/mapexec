@@ -8,4 +8,4 @@
 #pragma once
 #include "global.hpp"
 
-BOOL RemoteMappingInjection(DWORD, PBYTE, SIZE_T);
+BOOL RemoteMappingInjection(DWORD PID, PBYTE pPayload, SIZE_T sPayloadSize);
