@@ -168,9 +168,6 @@ BOOL RemoteMappingInjection(DWORD PID, PBYTE pPayload, SIZE_T sPayloadSize){
     printf("[*] Successfully inject payload into process.\n");
     NTSTATUS waitStatus = pNtWaitObject(hThread, FALSE, NULL);
 
-    printf("[#] Press <Enter> To Quit ... ");
-	getchar();
-
 _EndFunc:
     if(pNtClose != NULL){
         if(hProcess){
@@ -185,6 +182,6 @@ _EndFunc:
             NTSTATUS pNtCloseStatus = pNtClose(hThread);
         }
     }
-
+    
     return STATE;
 }

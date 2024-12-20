@@ -8,7 +8,9 @@
 #pragma once
 #include "global.hpp"
 
+VOID PrintHexData(LPCSTR str, PBYTE payload, SIZE_T sPayload);
+
 DWORD HashStringA(LPCSTR str);
 DWORD HashStringW(LPCWSTR str);
 
-PBYTE Ipv4Deobfuscation(const char* obfuscated_shellcode[], size_t shellcode_size);
+VOID XorByInputKeys(PBYTE pShellcode, SIZE_T sShellcodeSize, PBYTE pKey, SIZE_T sKeySize);
