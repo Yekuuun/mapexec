@@ -31,7 +31,7 @@ typedef unsigned char* PBYTE;
 typedef char*       LPSTR;
 typedef const char* LPCSTR;
 typedef wchar_t     WCHAR;
-typedef wchar_t*    LPCWCHAR;
+typedef wchar_t*    LPCWSTR;
 
 typedef struct _UNICODE_STRING {
     unsigned short	length;
@@ -63,3 +63,17 @@ typedef LONG KPRIORITY, *PKPRIORITY;
 #endif
 
 #define NTAPI __stdcall
+
+#ifdef _WIN64
+#define TIB_OFFSET 0x30
+#else
+#define TIB_OFFSET 0x18
+#endif
+
+#ifdef _WIN64
+#define PEB_OFFSET 0x60
+#else
+#define PEB_OFFSET 0x30
+#endif
+
+extern "C" unsigned __int64 __readgsqword(unsigned long Offset);
