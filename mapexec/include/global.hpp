@@ -15,3 +15,5 @@
 
 #include "utils.hpp"        //UTILS FUNCTIONS.
 #include "resolver.hpp"     //RESOLVER FUNCTIONS.
+
+//global variables.

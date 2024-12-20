@@ -17,9 +17,5 @@
 #include "global.hpp"
 
 int main(){
-    DWORD ntdllHash = HashStringW(L"ntdll.dll");
-
-    std::cout << "test:" << std::endl;
-    std::cout << ntdllHash << std::endl;
     return 0;
 }
