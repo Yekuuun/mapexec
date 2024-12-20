@@ -8,6 +8,20 @@
 #pragma once
 #include "global.hpp"
 
+typedef struct MEM_EXTENDED_PARAMETER {
+    struct {
+        DWORD64 Type : 8;    
+        DWORD64 Reserved : 56; 
+    } DUMMYSTRUCTNAME;
+    union {
+        DWORD64 ULong64;      
+        PVOID Pointer;          
+        SIZE_T Size;            
+        HANDLE Handle;         
+        DWORD ULong;            
+    } DUMMYUNIONNAME;
+} MEM_EXTENDED_PARAMETER, *PMEM_EXTENDED_PARAMETER;
+
 typedef struct _PS_ATTRIBUTE {
     ULONG  Attribute;
     SIZE_T Size;
@@ -52,6 +66,14 @@ typedef union _LARGE_INTEGER {
 
 typedef LARGE_INTEGER* PLARGE_INTEGER;
 
+typedef struct _SECURITY_ATTRIBUTES {
+    DWORD nLength;                 
+    void* lpSecurityDescriptor;   
+    int   bInheritHandle;           
+} SECURITY_ATTRIBUTES, *LPSECURITY_ATTRIBUTES;
+
+typedef void* PSECURITY_ATTRIBUTES;
+
 // Définition de la convention d'appel NTAPI
 #define NTAPI __stdcall
 
@@ -61,34 +83,6 @@ typedef NTSTATUS (NTAPI *PNTOPENPROCESS)(
     ACCESS_MASK DesiredAccess,
     POBJECT_ATTRIBUTES ObjectAttributes,
     PCLIENT_ID ClientId 
-);
-
-// NTALLOCATEVIRTUALMEMORY
-typedef NTSTATUS (NTAPI *PNTALLOCATEVIRTUALMEMORY)(
-    HANDLE ProcessHandle,
-    PVOID* BaseAddress,
-    ULONG ZeroBits,
-    PSIZE_T RegionSize,
-    ULONG AllocationType,
-    ULONG Protect
-);
-
-// NTPROTECTVIRTUALMEMORY
-typedef NTSTATUS (NTAPI *PNTPROTECTVIRTUALMEMORY)(
-    HANDLE ProcessHandle,
-    PVOID* BaseAddress,
-    PSIZE_T RegionSize,
-    ULONG NewProtect,
-    PULONG OldProtect
-);
-
-// NTWRITEVIRTUALMEMORY
-typedef NTSTATUS (NTAPI *PNTWRITEVIRTUALMEMORY)(
-    HANDLE ProcessHandle,
-    PVOID BaseAddress,
-    PVOID Buffer,
-    SIZE_T NumberOfBytesToWrite,
-    PSIZE_T NumberOfBytesWritten
 );
 
 // NTCREATETHREADEX

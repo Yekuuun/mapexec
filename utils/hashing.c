@@ -24,6 +24,8 @@ static DWORD HashStringW(LPCWSTR str) {
 
 //used to get HASH of functions in map exec.
 int main(int argc, char *argv[]){
-    printf("hash : %lu", HashStringA(argv[1]));
+    printf("hash : %lu\n", HashStringA(argv[1]));
+    // printf("KERNEL 32 : %lu", HashStringW(L"KERNEL32.DLL"));
+    // printf("KERNEL base : %lu", HashStringW(L"KERNELBASE.dll"));
     return EXIT_SUCCESS;
 }

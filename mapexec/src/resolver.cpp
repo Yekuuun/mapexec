@@ -15,8 +15,20 @@ static PVOID GetCurrentPebAddress(){
 }
 
 /**
+ * Base check if string contains another.
+ */
+BOOL StringContains(wchar_t* haystack, wchar_t* needle){
+    while(*haystack && (*haystack == *needle)){
+        haystack++;
+        needle++;
+    }
+
+    return (*haystack == *needle);
+}
+
+/**
  * Custom GetModuleHandleW function 
- * @param LPCWTR => nameof dll. (ex : L"ntdll.dll")
+ * @param DWORD => hash.
  */
 HANDLE GetModuleHandleW(DWORD dllHash){
 
@@ -35,7 +47,7 @@ HANDLE GetModuleHandleW(DWORD dllHash){
     while(moduleList != pListEntry){
         PLDR_DATA_TABLE_ENTRY pLdrDataEntry = (PLDR_DATA_TABLE_ENTRY)moduleList;
         DWORD currentFuncHash = HashStringW(pLdrDataEntry->BaseDllName.buffer);
-
+        
         if(currentFuncHash == dllHash){
             return pLdrDataEntry->DllBase;
         }

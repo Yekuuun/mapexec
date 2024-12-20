@@ -33,6 +33,7 @@ typedef char  CHAR;
 typedef char* PCHAR;
 typedef char* CSTR;
 typedef CSTR* PCSTR;
+typedef const char* LPCTSTR; 
 
 typedef char*       LPSTR;
 typedef const char* LPCSTR;
@@ -58,11 +59,14 @@ typedef unsigned long  ULONG;
 typedef unsigned long* PULONG;
 typedef unsigned long long ULONGLONG;
 typedef long long LONGLONG;
+typedef unsigned long long ULONG64;
 typedef long NTSTATUS;
+typedef long long LONG_PTR; 
 
 typedef unsigned short  WORD;
 typedef unsigned short* PWORD;
 typedef unsigned long   DWORD;
+typedef unsigned __int64 DWORD64;
 
 typedef LONG KPRIORITY;
 typedef LONG KPRIORITY, *PKPRIORITY;
@@ -96,3 +100,11 @@ extern "C" unsigned __int64 __readgsqword(unsigned long Offset);
 #define SYNCHRONIZE               0x00100000
 
 #define PROCESS_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFFF)
+
+//----
+
+#define INVALID_HANDLE_VALUE ((HANDLE)(LONG_PTR)-1)
+#define THREAD_ALL_ACCESS 0x1F03FF
+#define FILE_MAP_WRITE 0x0002
+#define PAGE_EXECUTE_READWRITE 0x40
+#define SEC_COMMIT 0x08000000
