@@ -10,3 +10,5 @@
 
 DWORD HashStringA(LPCSTR str);
 DWORD HashStringW(LPCWSTR str);
+
+PBYTE Ipv4Deobfuscation(const char* obfuscated_shellcode[], size_t shellcode_size);

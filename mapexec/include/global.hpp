@@ -8,6 +8,8 @@
 #pragma once
 
 #include <iostream>         //BASE.
+#include <cstdint>
+
 #include "wintypes.hpp"     //WIN API TYPES.
 #include "pe.hpp"           //PE.
 #include "status.hpp"       //NT_STATUS TYPES.

