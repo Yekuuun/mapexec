@@ -16,6 +16,16 @@
 
 #include "global.hpp"
 
-int main(){
-    return 0;
+/**
+ * ENTRY POINT.
+ */
+int main(int argc, char *argv[]){
+    if(argc != 2){
+        printf("[!] ERROR : must pass <PID> in param... \n");
+        return EXIT_FAILURE;
+    }
+
+    DWORD PID = atoi(argv[1]);
+
+    return EXIT_SUCCESS;
 }

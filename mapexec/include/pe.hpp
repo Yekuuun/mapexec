@@ -50,13 +50,13 @@ typedef struct _LIST_ENTRY {
 
 typedef struct _ACTIVATION_CONTEXT
 {
-    unsigned long           magic;
-    int                     ref_count;
-    //struct file_info      config;
-    //struct file_info      appdir;
+    unsigned long            magic;
+    int                      ref_count;
+    //struct file_info       config;
+    //struct file_info       appdir;
     struct assembly          *assemblies;
-    unsigned int             num_assemblies;
-    unsigned int             allocated_assemblies;
+    unsigned int              num_assemblies;
+    unsigned int              allocated_assemblies;
     /* section data */
     unsigned long             sections;
     struct strsection_header  *wndclass_section;
@@ -67,6 +67,41 @@ typedef struct _ACTIVATION_CONTEXT
     struct guidsection_header *ifaceps_section;
     struct guidsection_header *clrsurrogate_section;
 } ACTIVATION_CONTEXT;
+
+//loaded module information
+typedef struct _LDR_DATA_TABLE_ENTRY
+{
+    LIST_ENTRY			InLoadOrderLinks;				/* 0x00 */
+    LIST_ENTRY			InMemoryOrderLinks;				/* 0x10 */
+    LIST_ENTRY			InInitializationOrderLinks;		/* 0x20 */
+    void*				DllBase;						/* 0x30 */
+    void*				EntryPoint;						/* 0x38 */
+    unsigned long		SizeOfImage;					/* 0x40 */
+    UNICODE_STRING		FullDllName;					/* 0x48 */
+    UNICODE_STRING		BaseDllName;					/* 0x58 */
+    unsigned long       Flags;
+    unsigned short      LoadCount;
+    unsigned short      TlsIndex;
+    union
+    {
+        LIST_ENTRY HashLinks;
+        struct
+        {
+            void* SectionPointer;
+            unsigned long CheckSum;
+        };
+    };
+    union
+    {
+        unsigned long   TimeDateStamp;
+        void*           LoadedImports;
+    };
+    _ACTIVATION_CONTEXT *EntryPointActivationContext;
+    void*               PatchInformation;
+    LIST_ENTRY          ForwarderLinks;
+    LIST_ENTRY          ServiceTagLinks;
+    LIST_ENTRY          StaticLinks;
+} LDR_DATA_TABLE_ENTRY, *PLDR_DATA_TABLE_ENTRY;
 
 typedef struct _PEB_LDR_DATA {
     unsigned int		Length;

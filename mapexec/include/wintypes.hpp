@@ -15,6 +15,8 @@
 #define TRUE                                        1
 #endif
 
+typedef bool BOOL;
+
 //void 
 typedef void  VOID;
 typedef void* PVOID;
@@ -44,6 +46,7 @@ typedef struct _UNICODE_STRING {
 typedef int INT;
 typedef unsigned int UINT;
 typedef unsigned long long UINT64;
+typedef size_t SIZE_T;
 
 typedef long LONG;
 typedef unsigned long  ULONG;

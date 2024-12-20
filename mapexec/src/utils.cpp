@@ -8,6 +8,7 @@
 
 #include "utils.hpp"
 
+//---------------STRING HASHING--------------------
 DWORD HashStringA(LPCSTR str) {
     DWORD hash = 0;
     while (*str) {

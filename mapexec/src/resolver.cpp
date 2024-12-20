@@ -32,7 +32,16 @@ HANDLE GetModuleHandleW(DWORD dllHash){
 
     //1th module.
     PLIST_ENTRY   moduleList  = pListEntry->Flink;
+    while(moduleList != pListEntry){
+        PLDR_DATA_TABLE_ENTRY pLdrDataEntry = (PLDR_DATA_TABLE_ENTRY)moduleList;
+        DWORD currentFuncHash = HashStringW(pLdrDataEntry->BaseDllName.buffer);
 
+        if(currentFuncHash == dllHash){
+            return pLdrDataEntry->DllBase;
+        }
+
+        moduleList = moduleList->Flink;
+    }
 
     return NULL;
 }
@@ -43,5 +52,32 @@ HANDLE GetModuleHandleW(DWORD dllHash){
  * @param DWORD  => function hash
  */
 PVOID GetProcAddress(HANDLE hModule, DWORD Hash){
-    return NULL;
+    BYTE* dllAddress = (BYTE*)hModule;
+
+    PIMAGE_DOS_HEADER ptrDosHeader = (PIMAGE_DOS_HEADER)hModule;
+
+
+    PIMAGE_NT_HEADERS64 ptrNtHeader = (PIMAGE_NT_HEADERS64)(dllAddress + ptrDosHeader->e_lfanew);
+    PIMAGE_OPTIONAL_HEADER64 ptrOptionnalHeader = &ptrNtHeader->OptionalHeader;
+
+    PIMAGE_EXPORT_DIRECTORY ptrImageExportDirectory = (PIMAGE_EXPORT_DIRECTORY)((BYTE*)hModule + ptrOptionnalHeader->DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
+
+    //address of AddressOfNames
+    auto rvaNames = (DWORD*)(dllAddress + ptrImageExportDirectory->AddressOfNames);
+    auto rvaOrdinalsNames = (WORD*)(dllAddress + ptrImageExportDirectory->AddressOfNameOrdinals);
+    auto rvaFunction = (DWORD*)(dllAddress + ptrImageExportDirectory->AddressOfFunctions);
+
+    //looping through names exported
+    for(int i = 0; i < ptrImageExportDirectory->NumberOfNames; i++)
+    {
+        char* functionName = (char*)(dllAddress + rvaNames[i]);
+        DWORD funcHash     = HashStringA(functionName);
+        std::cout << funcHash << std::endl;
+
+        if(funcHash == Hash){
+            return (LPVOID)(dllAddress + rvaFunction[rvaOrdinalsNames[i]]);
+        }
+    }
+
+    return nullptr;
 }
